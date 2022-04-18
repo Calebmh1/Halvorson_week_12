@@ -8,26 +8,42 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Group_3_Week_11_DB_API.Data;
 using Group_3_Week_11_DB_API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Group_3_Week_11_DB_API.Controllers
 {
+
+
+
     [Route("api/[controller]")]
     [ApiController]
     public class FacultiesController : ControllerBase
     {
         private readonly Wossamotta_UContext _context;
 
-        public FacultiesController(Wossamotta_UContext context)
+
+        private readonly TestAuthManager testAuthManager;
+
+        public FacultiesController(Wossamotta_UContext context, TestAuthManager testAuthManager)
         {
             _context = context;
+            this.testAuthManager = testAuthManager;
         }
 
         // GET: api/Faculties
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Faculty>>> GetFaculties()
         {
             return await _context.Faculties.ToListAsync();
         }
+
+
+
+
+
+
+
 
         // GET: api/Faculties/5
         [HttpGet("{id}")]
@@ -119,5 +135,28 @@ namespace Group_3_Week_11_DB_API.Controllers
         {
             return _context.Faculties.Any(e => e.FacultyId == id);
         }
+
+        [AllowAnonymous]
+        [HttpPost("Authorize")]
+        public IActionResult AuthUser ([FromBody] user usr)
+        {
+            var token = testAuthManager.Authenticate(usr.username, usr.password);
+            if (token == null)
+            {
+                return Unauthorized();
+            }
+            return Ok(token);
+        }
+
+
     }
+
+    public class user
+    {
+        public string username { get; set; }    
+        public string password { get; set; }   
+    }
+
+
+
 }
