@@ -15,7 +15,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 //////////////////////////////////////////////
 
 var key = "AuthTest12345!@#$%";
@@ -38,11 +37,7 @@ builder.Services.AddAuthentication(x =>
 });
 
 builder.Services.AddSingleton<Group_3_Week_11_DB_API.TestAuthManager>(new Group_3_Week_11_DB_API.TestAuthManager(key));
-
-
 //////////////////////////////////////////////
-
-
 
 builder.Services.AddDbContext<Group_3_Week_11_DB_API.Data.Wossamotta_UContext>(
     options =>
@@ -58,12 +53,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

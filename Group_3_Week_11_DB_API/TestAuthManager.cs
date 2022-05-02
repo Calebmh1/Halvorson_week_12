@@ -47,4 +47,11 @@ namespace Group_3_Week_11_DB_API
             
             
     }
+
+
+    public class user
+    {
+        public string username { get; set; }
+        public string password { get; set; }
+    }
 }

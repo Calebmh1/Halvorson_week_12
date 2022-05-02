@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Group_3_Week_11_DB_API.Data;
 using Group_3_Week_11_DB_API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Group_3_Week_11_DB_API.Controllers
 {
@@ -17,12 +18,15 @@ namespace Group_3_Week_11_DB_API.Controllers
     {
         private readonly Wossamotta_UContext _context;
 
+        private readonly TestAuthManager testAuthManager;
+
         public ClassesController(Wossamotta_UContext context)
         {
             _context = context;
         }
 
         // GET: api/Classes
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Class>>> GetClasses()
         {
@@ -30,6 +34,7 @@ namespace Group_3_Week_11_DB_API.Controllers
         }
 
         // GET: api/Classes/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Class>> GetClass(string id)
         {

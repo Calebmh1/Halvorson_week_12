@@ -42,10 +42,8 @@ namespace Group_3_Week_11_DB_API.Controllers
 
 
 
-
-
-
         // GET: api/Faculties/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Faculty>> GetFaculty(string id)
         {
@@ -136,27 +134,7 @@ namespace Group_3_Week_11_DB_API.Controllers
             return _context.Faculties.Any(e => e.FacultyId == id);
         }
 
-        [AllowAnonymous]
-        [HttpPost("Authorize")]
-        public IActionResult AuthUser ([FromBody] user usr)
-        {
-            var token = testAuthManager.Authenticate(usr.username, usr.password);
-            if (token == null)
-            {
-                return Unauthorized();
-            }
-            return Ok(token);
-        }
-
-
-    }
-
-    public class user
-    {
-        public string username { get; set; }    
-        public string password { get; set; }   
-    }
-
+}
 
 
 }
